@@ -1,0 +1,15 @@
+version: '3.8'
+name: demo-lazy-load-secure
+services:
+  web-server:
+    build: .
+    ports:
+      - "7890:7890"
+      - "5000:5000"
+    container_name: lazy-load-secure-api
+    image: "lazy-load-secure-api"
+    restart: unless-stopped
+networks:
+    default:
+      name: demo
+      external: true

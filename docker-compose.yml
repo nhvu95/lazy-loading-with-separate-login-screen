@@ -1,0 +1,21 @@
+version: '3.8'
+name: demo-lazy-load-secure
+services:
+  web-nginx:
+    build: .
+    ports:
+      - "7890:7890"
+    container_name: demo-lazy-load-nginx
+    image: "demo-lazy-load-nginx"
+    restart: unless-stopped
+  web-server:
+    build: /oauth-server/.
+    ports:
+      - "5000:5000"
+    container_name: demo-lazy-load-api
+    image: "demo-lazy-load-api"
+    restart: unless-stopped
+networks:
+    default:
+      name: tunnel
+      external: true

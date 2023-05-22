@@ -1,0 +1,20 @@
+# Use the official Node.js image as the base image
+FROM node:latest
+
+# Create a working directory
+RUN mkdir /demo-api
+WORKDIR /demo-api
+
+# Copy package.json and package-lock.json files
+COPY package.json /package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+RUN npm run build
+
+# Start the Node.js application
+CMD ["npm", "run", "start:prod"]
