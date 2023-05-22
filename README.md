@@ -1,3 +1,5 @@
+A demo for the idea of lazy-loading with a separate login screen. Until login success, the user can not load the Internal WebApp
+
 1. open Windows/System32/dirvers/etc
 2. Add these line into host file
 
