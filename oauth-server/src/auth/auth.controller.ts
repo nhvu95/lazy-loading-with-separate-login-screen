@@ -20,11 +20,11 @@ export class AuthController {
   }
 
   @Get('/verify-token')
-  async verifyToken(@Request() req) {
-    const isValid = await this.authService.validateToken(req.headers.authorization);
-    console.log("Verify Token", req.headers.vunguyen, req.headers.authorization, isValid);
+  async verifyToken(@Request() req, @Res() res: Response) {
+    const isValid = await this.authService.validateToken(req.cookies['access_token']);
+    console.log("Verify Token", req.headers.vunguyen, req.cookies['access_token'], isValid);
     if (isValid)
-      throw new ImATeapotException();
+      res.status(200).send('OK');
     else
       throw new UnauthorizedException();
   }

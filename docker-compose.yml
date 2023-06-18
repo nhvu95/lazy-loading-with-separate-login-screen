@@ -4,9 +4,9 @@ services:
   web-nginx:
     build: .
     ports:
-      - "7890:7890"
-    container_name: demo-lazy-load-nginx
-    image: "demo-lazy-load-nginx"
+      - "7890:80"
+    container_name: demo-lazy-load-gateway
+    image: "demo-lazy-load-gateway"
     restart: unless-stopped
   web-server:
     build: /oauth-server/.

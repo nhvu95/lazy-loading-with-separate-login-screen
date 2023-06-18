@@ -1,11 +1,27 @@
-# Use the official NGINX image as the base image
-FROM nginx:latest
+FROM ubuntu:20.04
 
-# Copy the NGINX configuration file to the container
-RUN mkdir /etc/nginx/sites-enabled
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Copy the HTML files to the container
-COPY login.html /usr/share/nginx/html/login.html
-COPY index.html /usr/share/nginx/html/index.html
+RUN apt update && apt install -y apache2
+
+# Enable site-specific configurations
+RUN a2enmod headers
+RUN a2enmod rewrite
+RUN a2enmod include
+RUN a2dissite 000-default.conf
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_RUN_DIR /var/www/html
+
+COPY apache.conf /etc/apache2/sites-available/apache.conf
+RUN ln -s /etc/apache2/sites-available/apache.conf /etc/apache2/sites-enabled/apache.conf
+
+COPY index.html /var/www/html/index.html
+COPY login.html /var/www/html/login.html
+
+EXPOSE 80
+
+ENTRYPOINT ["/usr/sbin/apache2"]
+CMD ["-D", "FOREGROUND"]
